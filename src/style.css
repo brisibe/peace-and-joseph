@@ -410,6 +410,12 @@ section {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+#walletValue {
+  white-space: normal;
+  overflow-wrap: anywhere;
+  overflow: visible;
+  text-overflow: clip;
+}
 .bank-account {
   display: block;
   margin-top: 6px;

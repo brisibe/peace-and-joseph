@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="Celebrate the wedding of Zara and Elijah." />
+  <title>Zara & Elijah — Our Wedding</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root{--ink:#351d18;--rust:#9c482e;--cream:#faf5ee;--paper:#fffaf4;--sand:#eadbca;--sage:#436b62;--line:rgba(53,29,24,.14);--serif:'Cormorant Garamond',Georgia,serif;--sans:Montserrat,Arial,sans-serif}
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;color:var(--ink);background:var(--cream);font-family:var(--sans);font-size:14px;line-height:1.6}button,input,select,textarea{font:inherit}img{display:block;width:100%;height:100%;object-fit:cover}a{color:inherit;text-decoration:none}.eyebrow{font-size:10px;letter-spacing:.36em;text-transform:uppercase;font-weight:500}.serif{font-family:var(--serif)}.shell{max-width:1240px;margin:auto;background:rgba(255,250,244,.96);box-shadow:0 32px 100px rgba(64,32,20,.12)}
+    nav{height:72px;display:flex;align-items:center;justify-content:center;gap:38px;padding:0 4vw;border-bottom:1px solid var(--line);position:sticky;top:0;background:rgba(255,250,244,.88);backdrop-filter:blur(16px);z-index:20}.brand{display:none;font-family:var(--serif);font-size:22px}.menu{display:flex;gap:34px}.menu a{font-size:9px;letter-spacing:.22em;text-transform:uppercase}.menu a:hover{color:var(--rust)}.nav-rsvp{border:1px solid var(--rust);padding:10px 22px;border-radius:99px}
+    .hero{display:grid;grid-template-columns:1.07fr .93fr;min-height:560px}.hero-photo{position:relative;overflow:hidden}.hero-photo img{object-position:center 32%}.hero-photo:after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,rgba(42,20,12,.25),transparent 55%)}.hero-kicker{position:absolute;left:54px;top:50%;z-index:2;color:white;width:110px}.hero-copy{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:60px 46px;position:relative;overflow:hidden;background:radial-gradient(circle at 80% 75%,#ead7c5 0,transparent 34%),var(--paper)}.hero-copy:after{content:'❧';position:absolute;right:22px;bottom:18px;font:100px var(--serif);color:rgba(156,72,46,.11);transform:rotate(-18deg)}.hero h1{font:500 clamp(56px,6vw,88px)/.85 var(--serif);margin:18px 0 12px}.date{letter-spacing:.38em;font-size:11px;text-transform:uppercase}.rule{width:34px;height:1px;background:var(--rust);margin:24px auto}.countdown{display:grid;grid-template-columns:repeat(4,1fr);margin:4px 0 32px}.countdown div{min-width:76px;border-right:1px solid var(--line)}.countdown div:last-child{border:0}.countdown strong{display:block;font:500 30px var(--serif)}.countdown span{font-size:7px;letter-spacing:.15em;text-transform:uppercase}.cta{border:0;border-radius:99px;background:var(--rust);color:white;padding:14px 29px;letter-spacing:.18em;font-size:9px;text-transform:uppercase;cursor:pointer;transition:.2s}.cta:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(156,72,46,.24)}
+    section{scroll-margin-top:72px}.gallery{padding:45px 48px;background:#fff}.section-intro{display:grid;grid-template-columns:160px 1fr;gap:32px;align-items:end;margin-bottom:25px}.section-intro h2,.card h2{font:italic 400 38px/1 var(--serif);margin:0}.section-intro p{font-size:9px;letter-spacing:.28em;text-transform:uppercase;margin:8px 0}.photos{display:grid;grid-template-columns:1fr 1.1fr 1.3fr 1fr 1.1fr;gap:8px;height:180px}.photos button{border:0;padding:0;overflow:hidden;cursor:pointer;background:#eee}.photos img{transition:.4s}.photos button:hover img{transform:scale(1.05)}
+    .details{display:grid;grid-template-columns:.82fr 1.32fr 1.1fr;background:var(--paper);border-top:1px solid var(--line)}.card{padding:42px 38px;border-right:1px solid var(--line)}.card:last-child{border:0}.detail-line{display:flex;gap:16px;margin-top:22px;align-items:flex-start}.icon{font:26px var(--serif);color:var(--rust);width:30px}.detail-line strong{display:block;font-family:var(--serif);font-size:18px;font-weight:500}.detail-line small{letter-spacing:.16em;text-transform:uppercase;font-size:8px}.rsvp-form{display:grid;gap:13px;margin-top:20px}.rsvp-form label{font-size:9px;letter-spacing:.08em}.rsvp-form input,.rsvp-form select,.rsvp-form textarea{width:100%;border:1px solid var(--line);background:#fffaf8;padding:12px 13px;color:var(--ink);outline:none}.rsvp-form input:focus,.rsvp-form select:focus,.rsvp-form textarea:focus{border-color:var(--rust)}.rsvp-form textarea{min-height:70px;resize:vertical}.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}.status{font-size:11px;min-height:18px;color:var(--sage)}
+    .support-copy{margin:12px 0 19px;font-size:12px}.support-item{display:grid;grid-template-columns:38px 1fr 34px;align-items:center;gap:12px;background:#f3e8dd;padding:15px;margin-top:10px;border-radius:6px}.support-item .coin{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:white;color:var(--rust);font-weight:600}.support-item strong{display:block;font-family:var(--serif);font-size:17px}.support-item small{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.copy{border:0;background:transparent;color:var(--ink);font-size:19px;cursor:pointer}.note{font:italic 17px var(--serif);margin-top:18px}.admin-tools{margin-top:14px;display:flex;gap:8px}.ghost{background:transparent;color:var(--rust);border:1px solid rgba(156,72,46,.3);padding:8px 10px;font-size:8px;letter-spacing:.14em;text-transform:uppercase;cursor:pointer}
+    footer{text-align:center;padding:28px;border-top:1px solid var(--line);font-size:8px;letter-spacing:.3em;text-transform:uppercase}.lightbox{position:fixed;inset:0;background:rgba(28,15,11,.9);display:none;z-index:50;padding:6vw}.lightbox.open{display:grid;place-items:center}.lightbox img{max-width:1000px;max-height:80vh;object-fit:contain}.lightbox button{position:absolute;right:25px;top:20px;color:white;background:none;border:0;font-size:35px;cursor:pointer}.mobile-toggle{display:none}
+    @media(max-width:850px){nav{justify-content:space-between;height:62px}.brand{display:block}.mobile-toggle{display:block;border:0;background:none;font-size:22px}.menu{display:none;position:absolute;top:62px;left:0;right:0;background:var(--paper);padding:25px;flex-direction:column;text-align:center}.menu.open{display:flex}.hero{grid-template-columns:1fr;min-height:0}.hero-photo{height:58vh;min-height:420px}.hero-copy{padding:52px 20px}.hero h1{font-size:57px}.photos{grid-template-columns:repeat(2,1fr);height:auto}.photos button{height:160px}.photos button:nth-child(3){grid-column:span 2;height:210px}.section-intro{grid-template-columns:1fr}.details{grid-template-columns:1fr}.card{border-right:0;border-bottom:1px solid var(--line)}.gallery{padding:38px 22px}.countdown div{min-width:65px}}
+    @media(max-width:480px){.hero-photo{height:68vh}.hero-kicker{left:25px;top:auto;bottom:30px}.form-row{grid-template-columns:1fr}.card{padding:36px 24px}.photos button{height:125px}.photos button:nth-child(5){display:none}.countdown strong{font-size:25px}.countdown div{min-width:58px}}
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <nav aria-label="Primary navigation">
+      <a class="brand" href="#home">Z & E</a>
+      <button class="mobile-toggle" aria-label="Open menu" aria-expanded="false">☰</button>
+      <div class="menu">
+        <a href="#story">Our story</a><a href="#day">Our day</a><a href="#gallery">Gallery</a><a href="#support">Gift & support</a><a class="nav-rsvp" href="#rsvp">RSVP</a>
+      </div>
+    </nav>
+
+    <header class="hero" id="home">
+      <div class="hero-photo">
+        <img src="assets/hero.jpg" alt="Zara and Elijah together at golden hour" />
+        <div class="hero-kicker eyebrow">Two hearts<br>A brighter<br>Tomorrow</div>
+      </div>
+      <div class="hero-copy" id="story">
+        <div class="eyebrow">Together forever</div>
+        <h1>Zara <span style="color:var(--rust)">&</span> Elijah</h1>
+        <div class="date">Saturday, 14 June 2027</div>
+        <div class="rule"></div>
+        <div class="eyebrow" style="margin-bottom:10px">Our day</div>
+        <div class="countdown" aria-label="Countdown to wedding day">
+          <div><strong id="days">—</strong><span>Days</span></div><div><strong id="hours">—</strong><span>Hours</span></div><div><strong id="minutes">—</strong><span>Minutes</span></div><div><strong id="seconds">—</strong><span>Seconds</span></div>
+        </div>
+        <a class="cta" href="#rsvp">Reserve your seat &nbsp;→</a>
+      </div>
+    </header>
+
+    <section class="gallery" id="gallery">
+      <div class="section-intro"><div><h2>Gallery</h2><p>Stories in every frame</p></div><div class="eyebrow">A love worth remembering</div></div>
+      <div class="photos">
+        <button aria-label="Open photo 1"><img src="assets/gallery-1.jpg" alt="The couple walking together"></button>
+        <button aria-label="Open photo 2"><img src="assets/gallery-2.jpg" alt="A quiet moment together"></button>
+        <button aria-label="Open photo 3"><img src="assets/gallery-3.jpg" alt="The couple overlooking the coast"></button>
+        <button aria-label="Open photo 4"><img src="assets/gallery-4.jpg" alt="Engagement ring detail"></button>
+        <button aria-label="Open photo 5"><img src="assets/gallery-5.jpg" alt="The couple at sunset"></button>
+      </div>
+    </section>
+
+    <section class="details" id="day">
+      <article class="card">
+        <h2>The Ceremony</h2>
+        <div class="detail-line"><span class="icon">□</span><div><strong>14 June 2027</strong><small>4:00 PM · Guests seated by 3:30</small></div></div>
+        <div class="detail-line"><span class="icon">⌖</span><div><strong>The Olive Estate</strong><small>Lagos, Nigeria</small></div></div>
+        <div class="detail-line"><span class="icon">♢</span><div><strong>Formal elegance</strong><small>Champagne · Terracotta · Neutrals</small></div></div>
+        <p class="note">Good people. Beautiful places. A brighter tomorrow.</p>
+      </article>
+
+      <article class="card" id="rsvp">
+        <h2>Reserve Your Seat</h2>
+        <p class="support-copy">We’d love to celebrate with you. Kindly confirm your attendance below.</p>
+        <form class="rsvp-form" id="rsvpForm">
+          <label>Full name<input name="name" required placeholder="Your name" autocomplete="name"></label>
+          <div class="form-row">
+            <label>Will you attend?<select name="attending" required><option value="">Select an option</option><option>Joyfully accepts</option><option>Regretfully declines</option></select></label>
+            <label>Number of guests<select name="guests" required><option>1</option><option>2</option><option>3</option><option>4</option></select></label>
+          </div>
+          <label>Message (optional)<textarea name="message" placeholder="Leave us a note..."></textarea></label>
+          <button class="cta" type="submit">Send RSVP &nbsp;→</button>
+          <div class="status" id="status" role="status"></div>
+        </form>
+      </article>
+
+      <article class="card" id="support">
+        <h2>Gift & Support</h2>
+        <p class="support-copy">Your love and presence mean the world to us. If you’d like to contribute to our next chapter, you can do so below.</p>
+        <div class="support-item"><span class="coin">⌂</span><div><strong>Bank Transfer</strong><small id="bankValue">0000000000 · Sample Bank</small></div><button class="copy" data-copy="0000000000" aria-label="Copy bank account">⧉</button></div>
+        <div class="support-item"><span class="coin" style="color:var(--sage)">₮</span><div><strong>USDT · TRC20</strong><small id="walletValue">TQ_SAMPLE_WALLET_ADDRESS</small></div><button class="copy" data-copy="TQ_SAMPLE_WALLET_ADDRESS" aria-label="Copy wallet address">⧉</button></div>
+        <p class="note">Every gesture helps us build our tomorrow. Thank you.</p>
+        <div class="admin-tools"><button class="ghost" id="downloadCsv" type="button">Download RSVP CSV</button></div>
+      </article>
+    </section>
+
+    <footer>Zara & Elijah &nbsp;·&nbsp; 14 June 2027 &nbsp;·&nbsp; Together forever</footer>
+  </div>
+  <div class="lightbox" role="dialog" aria-modal="true" aria-label="Photo viewer"><button aria-label="Close">×</button><img alt="Enlarged gallery photo"></div>
+
+  <script>
+    const weddingDate = new Date('2027-06-14T16:00:00+01:00');
+    function tick(){const n=new Date(),d=Math.max(0,weddingDate-n);const vals=[Math.floor(d/864e5),Math.floor(d/36e5)%24,Math.floor(d/6e4)%60,Math.floor(d/1e3)%60];['days','hours','minutes','seconds'].forEach((id,i)=>document.getElementById(id).textContent=String(vals[i]).padStart(2,'0'));} tick();setInterval(tick,1000);
+    const menu=document.querySelector('.menu'),toggle=document.querySelector('.mobile-toggle');toggle.onclick=()=>{menu.classList.toggle('open');toggle.setAttribute('aria-expanded',menu.classList.contains('open'))};document.querySelectorAll('.menu a').forEach(a=>a.onclick=()=>menu.classList.remove('open'));
+    const lightbox=document.querySelector('.lightbox'),lightboxImg=lightbox.querySelector('img');document.querySelectorAll('.photos button').forEach(b=>b.onclick=()=>{lightboxImg.src=b.querySelector('img').src;lightbox.classList.add('open')});lightbox.querySelector('button').onclick=()=>lightbox.classList.remove('open');lightbox.onclick=e=>{if(e.target===lightbox)lightbox.classList.remove('open')};
+    document.querySelectorAll('[data-copy]').forEach(b=>b.onclick=async()=>{await navigator.clipboard.writeText(b.dataset.copy);const old=b.textContent;b.textContent='✓';setTimeout(()=>b.textContent=old,1400)});
+    const key='zara-elijah-rsvps';document.getElementById('rsvpForm').addEventListener('submit',e=>{e.preventDefault();const data=Object.fromEntries(new FormData(e.target));data.submittedAt=new Date().toISOString();const rows=JSON.parse(localStorage.getItem(key)||'[]');rows.push(data);localStorage.setItem(key,JSON.stringify(rows));e.target.reset();document.getElementById('status').textContent='Thank you — your reservation has been received.'});
+    document.getElementById('downloadCsv').onclick=()=>{const rows=JSON.parse(localStorage.getItem(key)||'[]');if(!rows.length){document.getElementById('status').textContent='No RSVPs are stored in this browser yet.';return}const esc=v=>'"'+String(v??'').replaceAll('"','""')+'"';const csv=['Name,Attending,Guests,Message,Submitted At',...rows.map(r=>[r.name,r.attending,r.guests,r.message,r.submittedAt].map(esc).join(','))].join('\n');const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download='wedding-rsvps.csv';a.click();URL.revokeObjectURL(a.href)};
+  </script>
+</body>
+</html>

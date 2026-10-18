@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <script src="/theme.js"></script>
+  <meta name="description" content="Celebrate the wedding of Peace and Joseph." />
+  <title>Peace & Joseph — Our Wedding</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="stylesheet" href="/src/style.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="shell">
+    <nav aria-label="Primary navigation">
+      <a class="brand" href="#home">P & J</a>
+      <div class="menu" id="primary-menu">
+        <a href="#story">Our story</a><a href="#day">Our day</a><a href="#gallery">Gallery</a><a href="#support">Gift & support</a><a class="nav-rsvp" href="#rsvp">RSVP</a>
+      </div>
+      <div class="nav-actions">
+        <button type="button" class="theme-toggle" aria-label="Switch to dark mode" aria-pressed="false" title="Switch to dark mode" hidden><span aria-hidden="true">☾</span></button>
+        <button type="button" class="mobile-toggle" aria-label="Open menu" aria-controls="primary-menu" aria-expanded="false">☰</button>
+      </div>
+    </nav>
+
+    <main id="main">
+    <header class="hero" id="home">
+      <div class="hero-photo">
+        <picture>
+          <source type="image/avif" srcset="/images/cover-480.avif 480w, /images/cover-960.avif 960w, /images/cover-1600.avif 1600w" sizes="(max-width: 850px) 100vw, (max-width: 1240px) 53.5vw, 664px">
+          <img src="/images/cover-960.jpg" srcset="/images/cover-480.jpg 480w, /images/cover-960.jpg 960w, /images/cover-1600.jpg 1600w" sizes="(max-width: 850px) 100vw, (max-width: 1240px) 53.5vw, 664px" alt="Peace and Joseph together" width="2880" height="3600" fetchpriority="high" />
+        </picture>
+        <div class="hero-kicker eyebrow">Two hearts<br>A brighter<br>Tomorrow</div>
+      </div>
+      <div class="hero-copy" id="story">
+        <div class="eyebrow">Together forever</div>
+        <h1>Peace <span style="color:var(--rust)">&</span> Joseph</h1>
+        <div class="date">Friday, 4 December 2026</div>
+        <div class="rule"></div>
+        <div class="eyebrow" style="margin-bottom:10px">Our day</div>
+        <div class="countdown" data-wedding-date="2026-12-04T16:00:00+01:00" aria-label="Countdown to wedding day">
+          <div><strong id="days">—</strong><span>Days</span></div><div><strong id="hours">—</strong><span>Hours</span></div><div><strong id="minutes">—</strong><span>Minutes</span></div><div><strong id="seconds">—</strong><span>Seconds</span></div>
+        </div>
+        <a class="cta" href="#rsvp">Reserve your seat &nbsp;→</a>
+      </div>
+    </header>
+
+    <section class="gallery" id="gallery">
+      <div class="section-intro"><div><h2>Gallery</h2><p>Stories in every frame</p></div><div class="eyebrow">A love worth remembering</div></div>
+      <div class="photos">
+        <button aria-label="Open photo 1">
+          <picture>
+            <source type="image/avif" srcset="/images/1-320.avif 320w, /images/1-640.avif 640w, /images/1-960.avif 960w" sizes="(max-width: 850px) calc((100vw - 52px) / 2), (max-width: 1240px) calc(18.182vw - 23.273px), 202px">
+            <img src="/images/1-640.jpg" srcset="/images/1-320.jpg 320w, /images/1-640.jpg 640w, /images/1-960.jpg 960w" sizes="(max-width: 850px) calc((100vw - 52px) / 2), (max-width: 1240px) calc(18.182vw - 23.273px), 202px" data-full="/images/1-1600.jpg" data-full-avif="/images/1-1600.avif" alt="Peace and Joseph — photo 1" width="2880" height="3600" loading="lazy" decoding="async">
+          </picture>
+        </button>
+        <button aria-label="Open photo 2">
+          <picture>
+            <source type="image/avif" srcset="/images/2-320.avif 320w, /images/2-640.avif 640w, /images/2-960.avif 960w" sizes="(max-width: 850px) calc((100vw - 52px) / 2), (max-width: 1240px) calc(20.000vw - 25.600px), 222px">
+            <img src="/images/2-640.jpg" srcset="/images/2-320.jpg 320w, /images/2-640.jpg 640w, /images/2-960.jpg 960w" sizes="(max-width: 850px) calc((100vw - 52px) / 2), (max-width: 1240px) calc(20.000vw - 25.600px), 222px" data-full="/images/2-1600.jpg" data-full-avif="/images/2-1600.avif" alt="Peace and Joseph — photo 2" width="2880" height="3600" loading="lazy" decoding="async">
+          </picture>
+        </button>
+        <button aria-label="Open photo 3">
+          <picture>
+            <source type="image/avif" srcset="/images/3-320.avif 320w, /images/3-640.avif 640w, /images/3-960.avif 960w" sizes="(max-width: 850px) calc(100vw - 44px), (max-width: 1240px) calc(23.636vw - 30.255px), 263px">
+            <img src="/images/3-640.jpg" srcset="/images/3-320.jpg 320w, /images/3-640.jpg 640w, /images/3-960.jpg 960w" sizes="(max-width: 850px) calc(100vw - 44px), (max-width: 1240px) calc(23.636vw - 30.255px), 263px" data-full="/images/3-1600.jpg" data-full-avif="/images/3-1600.avif" alt="Peace and Joseph — photo 3" width="2880" height="3600" loading="lazy" decoding="async">
+          </picture>
+        </button>
+        <button aria-label="Open photo 4">
+          <picture>
+            <source type="image/avif" srcset="/images/4-320.avif 320w, /images/4-640.avif 640w, /images/4-960.avif 960w" sizes="(max-width: 850px) calc((100vw - 52px) / 2), (max-width: 1240px) calc(18.182vw - 23.273px), 202px">
+            <img src="/images/4-640.jpg" srcset="/images/4-320.jpg 320w, /images/4-640.jpg 640w, /images/4-960.jpg 960w" sizes="(max-width: 850px) calc((100vw - 52px) / 2), (max-width: 1240px) calc(18.182vw - 23.273px), 202px" data-full="/images/4-1600.jpg" data-full-avif="/images/4-1600.avif" alt="Peace and Joseph — photo 4" width="2880" height="3600" loading="lazy" decoding="async">
+          </picture>
+        </button>
+        <button aria-label="Open photo 5">
+          <picture>
+            <source type="image/avif" srcset="/images/5-320.avif 320w, /images/5-640.avif 640w, /images/5-960.avif 960w" sizes="(max-width: 850px) calc((100vw - 52px) / 2), (max-width: 1240px) calc(20.000vw - 25.600px), 222px">
+            <img src="/images/5-640.jpg" srcset="/images/5-320.jpg 320w, /images/5-640.jpg 640w, /images/5-960.jpg 960w" sizes="(max-width: 850px) calc((100vw - 52px) / 2), (max-width: 1240px) calc(20.000vw - 25.600px), 222px" data-full="/images/5-1600.jpg" data-full-avif="/images/5-1600.avif" alt="Peace and Joseph — photo 5" width="2880" height="3600" loading="lazy" decoding="async">
+          </picture>
+        </button>
+      </div>
+    </section>
+
+    <section class="details" id="day">
+      <article class="card">
+        <h2>The Ceremony</h2>
+        <div class="detail-line"><span class="icon">□</span><div><strong>4 December 2026</strong><small>4:00 PM · Guests seated by 3:30</small></div></div>
+        <div class="detail-line"><span class="icon">⌖</span><div><strong>Based on RSVP</strong><small>Satelite Town, Lagos, Nigeria</small></div></div>
+        <div class="detail-line">
+          <span class="icon" aria-hidden="true">♢</span>
+          <div>
+            <strong>Formal elegance</strong>
+            <small>Dress code</small>
+            <ul class="dress-colors" aria-label="Dress code colors">
+              <li><span class="color-swatch color-swatch-white" aria-hidden="true"></span>White</li>
+              <li><span class="color-swatch color-swatch-purple" aria-hidden="true"></span>Purple</li>
+            </ul>
+          </div>
+        </div>
+        <p class="note">Good people. Beautiful places. A brighter tomorrow.</p>
+      </article>
+
+      <article class="card" id="rsvp">
+        <h2>Reserve Your Seat</h2>
+        <p class="support-copy">We’d love to celebrate with you. Kindly confirm your attendance below.</p>
+        <form class="rsvp-form" id="rsvpForm">
+          <fieldset class="rsvp-fields" disabled>
+          <legend class="visually-hidden">Your reservation details</legend>
+          <label>Full name<input name="name" required maxlength="100" placeholder="Your name" autocomplete="name"></label>
+          <label>Email<input type="email" name="email" required maxlength="254" placeholder="you@example.com" autocomplete="email"></label>
+          <label>Phone (optional)<input type="tel" name="phone" maxlength="32" placeholder="Include country code" autocomplete="tel"></label>
+          <div class="form-row">
+            <label>Will you attend?<select name="attending" required><option value="">Select an option</option><option value="yes">Joyfully accepts</option><option value="no">Regretfully declines</option></select></label>
+            <label>Guests (including you)<select name="guests" required><option>1</option><option>2</option><option>3</option><option>4</option></select></label>
+          </div>
+          <label>Message (optional)<textarea name="message" maxlength="1000" placeholder="Leave us a note..."></textarea></label>
+          <div class="honeypot" aria-hidden="true"><label>Leave this field empty<input name="website" tabindex="-1" autocomplete="off"></label></div>
+          <button class="cta" type="submit">Send RSVP &nbsp;→</button>
+          </fieldset>
+          <div class="status" id="status" role="status" aria-live="polite"></div>
+          <noscript><p>Please enable JavaScript to submit your RSVP.</p></noscript>
+        </form>
+      </article>
+
+      <article class="card" id="support" tabindex="-1">
+        <h2>Gift & Support</h2>
+        <p class="support-copy">Your love and presence mean the world to us. If you’d like to contribute to our next chapter, you can do so below.</p>
+        <details class="support-item bank-account">
+          <summary>Brisibe Joseph<span class="account-currency">NGN</span></summary>
+          <div class="bank-account-details">
+            <div><small id="bankNgn1Value">3106299352 - First Bank</small></div>
+            <button type="button" class="copy" data-copy="3106299352" title="Copy account number" aria-label="Copy Brisibe Joseph's First Bank account number">⧉</button>
+          </div>
+        </details>
+        <details class="support-item bank-account">
+          <summary>Onyishi Peace<span class="account-currency">NGN</span></summary>
+          <div class="bank-account-details">
+            <div><small id="bankNgn2Value">2084172750 - UBA</small></div>
+            <button type="button" class="copy" data-copy="2084172750" title="Copy account number" aria-label="Copy Onyishi Peace's UBA account number">⧉</button>
+          </div>
+        </details>
+        <details class="support-item bank-account">
+          <summary>USD Account <span class="account-currency">USD</span></summary>
+          <div class="bank-account-details">
+            <div><small><b>Account name</b></small><small id="bankUsdNameValue">Benaebi Joseph Brisibe</small></div>
+            <button type="button" class="copy" data-copy-target="bankUsdNameValue" title="Copy account name" aria-label="Copy USD account name">⧉</button>
+          </div>
+          <div class="bank-account-details">
+            <div><small><b>Account number</b></small><small id="bankUsdValue">215707541993</small></div>
+            <button type="button" class="copy" data-copy-target="bankUsdValue" title="Copy account number" aria-label="Copy USD account number">⧉</button>
+          </div>
+          <div class="bank-account-details">
+            <div><small><b>Account type</b></small><small id="bankUsdTypeValue">Checking</small></div>
+            <button type="button" class="copy" data-copy-target="bankUsdTypeValue" title="Copy account type" aria-label="Copy USD account type">⧉</button>
+          </div>
+          <div class="bank-account-details">
+            <div><small><b>ACH routing number</b></small><small id="bankUsdAchValue">101019644</small></div>
+            <button type="button" class="copy" data-copy-target="bankUsdAchValue" title="Copy ACH routing number" aria-label="Copy USD ACH routing number">⧉</button>
+          </div>
+          <div class="bank-account-details">
+            <div><small><b>Wire routing number</b></small><small id="bankUsdWireValue">101019644</small></div>
+            <button type="button" class="copy" data-copy-target="bankUsdWireValue" title="Copy wire routing number" aria-label="Copy USD wire routing number">⧉</button>
+          </div>
+          <div class="bank-account-details">
+            <div><small><b>Bank name</b></small><small id="bankUsdBankNameValue">Lead</small></div>
+            <button type="button" class="copy" data-copy-target="bankUsdBankNameValue" title="Copy bank name" aria-label="Copy USD bank name">⧉</button>
+          </div>
+          <div class="bank-account-details">
+            <div><small><b>Bank address</b></small><small id="bankUsdBankAddressValue">1801 Main St., Kansas City, MO 64108</small></div>
+            <button type="button" class="copy" data-copy-target="bankUsdBankAddressValue" title="Copy bank address" aria-label="Copy USD bank address">⧉</button>
+          </div>
+        </details>
+        <p class="transfer-narration">Narration: Wedding gift for Peace &amp; Joseph</p>
+        <div class="support-item"><span class="coin" style="color:var(--sage)">₮</span><div><strong>USDT · TRC20</strong><small id="walletValue">Details coming soon</small></div><button class="copy" disabled title="Wallet details coming soon" aria-label="Copy wallet address">⧉</button></div>
+        <p class="note">Every gesture helps us build our tomorrow. Thank you.</p>
+      </article>
+    </section>
+
+    </main>
+    <p class="status copy-status" id="copy-status" role="status"></p>
+    <footer>Peace & Joseph &nbsp;·&nbsp; 4 December 2026 &nbsp;·&nbsp; Together forever</footer>
+  </div>
+  <dialog class="lightbox" aria-label="Photo viewer"><button type="button" aria-label="Close photo viewer" autofocus>×</button><picture><source type="image/avif"><img alt="" width="2880" height="3600" decoding="async"></picture></dialog>
+  <dialog class="gift-dialog" aria-labelledby="gift-title" aria-describedby="gift-description">
+    <button type="button" class="gift-close" data-gift-dismiss aria-label="Close gift invitation">×</button>
+    <h2 id="gift-title">Your RSVP has been received.</h2>
+    <p id="gift-description">Would you like to send a gift?</p>
+    <div class="gift-actions">
+      <button type="button" class="cta" data-gift-view>View gift options</button>
+      <button type="button" class="gift-secondary" data-gift-dismiss autofocus>Not now</button>
+    </div>
+  </dialog>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>

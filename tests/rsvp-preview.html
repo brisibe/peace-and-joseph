@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Local RSVP preview — simulated saves</title>
+  <link rel="stylesheet" href="/src/style.css">
+</head>
+<body>
+  <script type="module">
+    import { setupReservationForm } from '/src/modules/reservations.js'
+    import { setupGiftInvitation } from '/src/modules/gift-invitation.js'
+    import { startCountdown } from '/src/modules/countdown.js'
+
+    // Exercise the real page and modules without sending guest data to a backend.
+    const page = new DOMParser().parseFromString(await (await fetch('/')).text(), 'text/html')
+    page.querySelectorAll('script').forEach((script) => script.remove())
+    document.body.replaceChildren(...page.body.children)
+    const toolbar = document.createElement('aside')
+    toolbar.style.cssText = 'position:sticky;top:0;z-index:100;padding:12px;background:var(--paper);border-bottom:1px solid var(--line)'
+    toolbar.innerHTML = '<b>Local preview — simulated saves only.</b> <label>Response <select id="preview-response"><option value="success">Success</option><option value="failure">Failure</option></select></label>'
+    document.body.prepend(toolbar)
+    document.documentElement.dataset.theme = 'light'
+    const toggle = document.querySelector('.theme-toggle')
+    toggle.hidden = false
+    toggle.addEventListener('click', () => {
+      const dark = document.documentElement.dataset.theme !== 'dark'
+      document.documentElement.dataset.theme = dark ? 'dark' : 'light'
+      toggle.setAttribute('aria-label', dark ? 'Switch to light mode' : 'Switch to dark mode')
+    })
+    await import('/src/modules/navigation.js')
+    startCountdown(document.querySelector('.countdown'))
+    const form = document.querySelector('#rsvpForm')
+    setupReservationForm(form, 'https://preview.supabase.co/functions/v1/submit-reservation', {
+      onSuccess: setupGiftInvitation(document.querySelector('.gift-dialog'), document.querySelector('#support')),
+      submit: async () => {
+        await new Promise((resolve) => setTimeout(resolve, 300))
+        if (document.querySelector('#preview-response').value === 'failure') throw new Error('Simulated failure')
+      },
+    })
+    // Synthetic data for repeatable manual checks; never submitted externally.
+    form.elements.name.value = 'Preview Guest'
+    form.elements.email.value = 'preview@example.com'
+    form.elements.attending.value = 'yes'
+  </script>
+</body>
+</html>

@@ -8,7 +8,7 @@ const origin = 'http://localhost:5173'
 const reservation = {
   submissionId: '01234567-89ab-4cde-8fab-0123456789ab',
   name: 'Ada Guest', attending: 'yes', guests: '2', message: 'Hello!', website: '',
-  email: 'ada@example.com', phone: '',
+  email: 'ada@example.com', phone: '', additionalGuestName: 'Grace Guest',
 }
 const request = (data = reservation, options = {}) => new Request(endpoint, {
   method: 'POST', headers: { 'content-type': 'application/json', origin },
@@ -59,19 +59,20 @@ test('client sends JSON without credentials and requires HTTP success plus match
 
 test('receiver normalizes data and uses atomic ignore-duplicate insert without returning contacts', async () => {
   const handle = handler({ fetcher: async (url, options) => {
-    assert.equal(url, 'https://example.supabase.co/rest/v1/reservations?on_conflict=submission_id')
-    assert.equal(options.headers.Prefer, 'resolution=ignore-duplicates,return=minimal')
+    assert.equal(url, 'https://example.supabase.co/rest/v1/reservations?on_conflict=submission_id&select=submission_id,received_at')
+    assert.equal(options.headers.Prefer, 'resolution=ignore-duplicates,return=representation')
     assert.equal(options.headers.apikey, 'sb_secret_test')
     assert.equal(options.headers.Authorization, undefined)
     const row = JSON.parse(options.body)
     assert.equal(row.submission_id, reservation.submissionId)
     assert.equal(row.phone, '08031234567')
     assert.equal(row.name, '=Guest')
+    assert.equal(row.additional_guest_name, 'Grace Guest')
     assert.equal(row.website, undefined)
     assert.equal(row.received_at, undefined)
     return new Response(null, { status: 201 })
   } })
-  const reply = await handle(request({ ...reservation, name: ' =Guest ', phone: ' 08031234567 ' }))
+  const reply = await handle(request({ ...reservation, name: ' =Guest ', phone: ' 08031234567 ', additionalGuestName: ' Grace Guest ' }))
   assert.equal(reply.status, 200)
   assert.deepEqual(await reply.json(), { ok: true, submissionId: reservation.submissionId })
 })
@@ -80,7 +81,7 @@ test('receiver rejects invalid fields, types, and honeypot before database acces
   const handle = handler({ fetcher: () => assert.fail('Must not write') })
   for (const changes of [
     { name: ' ' }, { name: 'x'.repeat(101) }, { name: {} }, { message: 'x'.repeat(1001) },
-    { attending: 'maybe' }, { guests: '5' }, { guests: '2.5' }, { guests: '' }, { guests: 2 },
+    { attending: 'maybe' }, { guests: '3' }, { guests: '4' }, { guests: '5' }, { guests: '2.5' }, { guests: '' }, { guests: 2 },
     { attending: 'no', guests: '2' }, { submissionId: '=bad' }, { website: 'spam' },
     { email: '' }, { email: 'a@@example.com' }, { email: 'a\n@example.com' },
     { email: 'x'.repeat(255) + '@example.com' }, { phone: '123' }, { phone: '+1234567890123456' },
@@ -162,4 +163,26 @@ test('local service-role JWT is used only by the server database request', async
     assert.equal(options.headers.Authorization, 'Bearer local-jwt')
     return new Response(null, { status: 201 })
   } })(request())
+})
+
+test('additional guest name is required for two attendees and stored as null otherwise', async () => {
+  for (const additionalGuestName of [undefined, '', '   ', 'x'.repeat(101), null, 123, {}]) {
+    assert.equal(validateReservation({ ...reservation, additionalGuestName }), null)
+    const reply = await handler()(request({ ...reservation, additionalGuestName }))
+    assert.equal(reply.status, 422)
+  }
+  for (const name of ['Grace', 'Grace Guest', 'x'.repeat(100)]) {
+    assert.equal(validateReservation({ ...reservation, additionalGuestName: name }).additional_guest_name, name)
+  }
+  for (const changes of [{ guests: '1' }, { attending: 'no', guests: '0' }]) {
+    for (const name of [undefined, '', 'Stale Guest']) {
+      const row = validateReservation({ ...reservation, ...changes, additionalGuestName: name })
+      assert.equal(row.additional_guest_name, null)
+    }
+    const reply = await handler({ fetcher: async (_, options) => {
+      assert.equal(JSON.parse(options.body).additional_guest_name, null)
+      return new Response(null, { status: 201 })
+    } })(request({ ...reservation, ...changes }))
+    assert.equal(reply.status, 200)
+  }
 })

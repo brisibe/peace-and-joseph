@@ -10,26 +10,27 @@ const readModule = (name) => readFileSync(new URL(`../src/modules/${name}.js`, i
 function formHarness(submit, endpointValue = endpoint) {
   const values = {
     name: 'Ada Guest', email: 'ada@example.com', phone: '+234 803 123 4567',
-    attending: 'yes', guests: '2', message: 'Hello', website: '',
+    attending: 'yes', guests: '2', additionalGuestName: 'Grace Guest', message: 'Hello', website: '',
   }
   const fields = { disabled: true }
   const button = { disabled: false }
   const status = { textContent: '' }
+  const additionalGuestField = { hidden: true }
   const events = {}
   let resets = 0
   let invitations = 0
   let nextId = 0
   const elements = Object.fromEntries(Object.entries(values).map(([name, value]) => [name, {
-    value, disabled: false, error: '',
+    value, disabled: false, required: false, error: '',
     addEventListener(event, callback) { events[`${name}:${event}`] = callback },
     setCustomValidity(error) { this.error = error },
     focus() {},
   }]))
   const form = {
     elements, busy: false,
-    querySelector: (selector) => ({ '#status': status, '[type="submit"]': button, fieldset: fields })[selector],
+    querySelector: (selector) => ({ '#status': status, '[type="submit"]': button, fieldset: fields, '#additionalGuestField': additionalGuestField })[selector],
     addEventListener(event, callback) { events[event] = callback },
-    reportValidity: () => !Object.values(elements).some((field) => field.error)
+    reportValidity: () => !Object.values(elements).some((field) => !field.disabled && (field.error || (field.required && !field.value)))
       && Boolean(elements.name.value && elements.attending.value),
     reset() {
       resets++
@@ -60,7 +61,7 @@ function formHarness(submit, endpointValue = endpoint) {
     },
   })
   return {
-    elements, fields, button, status, form, events,
+    elements, fields, button, status, form, events, additionalGuestField,
     resets: () => resets, invitations: () => invitations,
     send: () => events.submit({ preventDefault() {} }),
   }
@@ -74,9 +75,11 @@ test('RSVP saves normalized contacts, disables pending submission, and invites g
     assert.equal(url, endpoint)
     assert.equal(data.email, 'ada@example.com')
     assert.equal(data.phone, '+234 803 123 4567')
+    assert.equal(data.additionalGuestName, 'Grace Guest')
     return new Promise((resolve) => { complete = resolve })
   })
   app.elements.email.value = ' ada@example.com '
+  app.elements.additionalGuestName.value = ' Grace Guest '
   const pending = app.send()
   assert.equal(app.fields.disabled, true)
   assert.equal(app.form.busy, true)
@@ -88,6 +91,10 @@ test('RSVP saves normalized contacts, disables pending submission, and invites g
   assert.equal(app.resets(), 1)
   assert.equal(app.invitations(), 1)
   assert.equal(app.elements.email.value, '')
+  assert.equal(app.elements.additionalGuestName.value, '')
+  assert.equal(app.additionalGuestField.hidden, true)
+  assert.equal(app.elements.additionalGuestName.disabled, true)
+  assert.equal(app.elements.additionalGuestName.required, false)
   assert.match(app.status.textContent, /received/)
 })
 
@@ -119,6 +126,7 @@ test('declines submit zero guests, accept omitted phone, and still invite giftin
     assert.equal(data.guests, '0')
     assert.equal(data.attending, 'no')
     assert.equal(data.phone, '')
+    assert.equal(data.additionalGuestName, '')
   })
   app.elements.attending.value = 'no'
   app.events['attending:change']()
@@ -152,6 +160,58 @@ test('missing endpoint keeps the form disabled and cannot invite gifting', () =>
   assert.equal(app.fields.disabled, true)
   assert.equal(app.button.disabled, true)
   assert.equal(app.invitations(), 0)
+})
+
+test('additional name is visible and required only for an attending party of two', async () => {
+  const payloads = []
+  const app = formHarness(async (_, data) => { payloads.push(data); throw new Error('Offline') })
+  assert.equal(app.additionalGuestField.hidden, false)
+  assert.equal(app.elements.additionalGuestName.required, true)
+  app.elements.additionalGuestName.value = '   '
+  await app.send()
+  assert.equal(payloads.length, 0)
+  assert.match(app.elements.additionalGuestName.error, /full name/)
+  app.elements.guests.value = '1'
+  app.events['guests:change']()
+  assert.equal(app.additionalGuestField.hidden, true)
+  assert.equal(app.elements.additionalGuestName.disabled, true)
+  assert.equal(app.elements.additionalGuestName.required, false)
+  await app.send()
+  assert.equal(payloads[0].additionalGuestName, '')
+  app.elements.guests.value = '2'
+  app.events['guests:change']()
+  app.elements.additionalGuestName.value = 'Grace'
+  app.events['additionalGuestName:input']()
+  await app.send()
+  await app.send()
+  assert.equal(payloads[1].additionalGuestName, 'Grace')
+  assert.equal(payloads[1].submissionId, payloads[2].submissionId)
+  assert.equal(app.elements.additionalGuestName.value, 'Grace')
+  app.elements.additionalGuestName.value = 'Another Guest'
+  app.events['additionalGuestName:input']()
+  await app.send()
+  assert.notEqual(payloads[2].submissionId, payloads[3].submissionId)
+  app.elements.attending.value = 'no'
+  app.events['attending:change']()
+  assert.equal(app.additionalGuestField.hidden, true)
+  await app.send()
+  assert.equal(payloads[4].additionalGuestName, '')
+  app.elements.attending.value = 'yes'
+  app.events['attending:change']()
+  assert.equal(app.elements.additionalGuestName.value, 'Another Guest')
+  assert.equal(app.additionalGuestField.hidden, false)
+})
+
+test('oversized additional names block submission and correcting them permits saving', async () => {
+  let calls = 0
+  const app = formHarness(async () => { calls++ })
+  app.elements.additionalGuestName.value = 'x'.repeat(101)
+  await app.send()
+  assert.equal(calls, 0)
+  app.elements.additionalGuestName.value = 'Grace Guest'
+  app.events['additionalGuestName:input']()
+  await app.send()
+  assert.equal(calls, 1)
 })
 
 function dialogHarness(reducedMotion = false) {

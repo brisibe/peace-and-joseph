@@ -42,6 +42,9 @@
     form.elements.name.value = 'Preview Guest'
     form.elements.email.value = 'preview@example.com'
     form.elements.attending.value = 'yes'
+    form.elements.guests.value = '2'
+    form.elements.additionalGuestName.value = 'Preview Companion'
+    form.elements.attending.dispatchEvent(new Event('change'))
   </script>
 </body>
 </html>

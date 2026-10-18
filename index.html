@@ -33,14 +33,14 @@
           <source type="image/avif" srcset="/images/cover-480.avif 480w, /images/cover-960.avif 960w, /images/cover-1600.avif 1600w" sizes="(max-width: 850px) 100vw, (max-width: 1240px) 53.5vw, 664px">
           <img src="/images/cover-960.jpg" srcset="/images/cover-480.jpg 480w, /images/cover-960.jpg 960w, /images/cover-1600.jpg 1600w" sizes="(max-width: 850px) 100vw, (max-width: 1240px) 53.5vw, 664px" alt="Peace and Joseph together" width="2880" height="3600" fetchpriority="high" />
         </picture>
-        <div class="hero-kicker eyebrow">Two hearts<br>A brighter<br>Tomorrow</div>
+        <div class="hero-kicker eyebrow">Share In Our Joy<br>As We Continue<br>The Journey To Forever.</div>
       </div>
       <div class="hero-copy" id="story">
         <div class="eyebrow">Together forever</div>
         <h1>Peace <span style="color:var(--rust)">&</span> Joseph</h1>
         <div class="date">Friday, 4 December 2026</div>
         <div class="rule"></div>
-        <div class="eyebrow" style="margin-bottom:10px">Our day</div>
+        <div class="eyebrow" style="margin-bottom:10px">#PJ2026</div>
         <div class="countdown" data-wedding-date="2026-12-04T16:00:00+01:00" aria-label="Countdown to wedding day">
           <div><strong id="days">—</strong><span>Days</span></div><div><strong id="hours">—</strong><span>Hours</span></div><div><strong id="minutes">—</strong><span>Minutes</span></div><div><strong id="seconds">—</strong><span>Seconds</span></div>
         </div>
@@ -49,7 +49,7 @@
     </header>
 
     <section class="gallery" id="gallery">
-      <div class="section-intro"><div><h2>Gallery</h2><p>Stories in every frame</p></div><div class="eyebrow">A love worth remembering</div></div>
+      <div class="section-intro"><div><h2>Gallery</h2><p>Memories for the furture</p></div></div>
       <div class="photos">
         <button aria-label="Open photo 1">
           <picture>
@@ -86,7 +86,7 @@
 
     <section class="details" id="day">
       <article class="card">
-        <h2>The Ceremony</h2>
+        <h2>Ceremony Details</h2>
         <div class="detail-line"><span class="icon">□</span><div><strong>4 December 2026</strong><small>4:00 PM · Guests seated by 3:30</small></div></div>
         <div class="detail-line"><span class="icon">⌖</span><div><strong>Based on RSVP</strong><small>Satelite Town, Lagos, Nigeria</small></div></div>
         <div class="detail-line">
@@ -100,7 +100,7 @@
             </ul>
           </div>
         </div>
-        <p class="note">Good people. Beautiful places. A brighter tomorrow.</p>
+        <!-- <p class="note">Good people. Beautiful places. A brighter tomorrow.</p> -->
       </article>
 
       <article class="card" id="rsvp">
@@ -109,13 +109,14 @@
         <form class="rsvp-form" id="rsvpForm">
           <fieldset class="rsvp-fields" disabled>
           <legend class="visually-hidden">Your reservation details</legend>
-          <label>Full name<input name="name" required maxlength="100" placeholder="Your name" autocomplete="name"></label>
+          <label>Full name<input name="name" required maxlength="100" placeholder="Firstname Lastname" autocomplete="name"></label>
           <label>Email<input type="email" name="email" required maxlength="254" placeholder="you@example.com" autocomplete="email"></label>
           <label>Phone (optional)<input type="tel" name="phone" maxlength="32" placeholder="Include country code" autocomplete="tel"></label>
           <div class="form-row">
             <label>Will you attend?<select name="attending" required><option value="">Select an option</option><option value="yes">Joyfully accepts</option><option value="no">Regretfully declines</option></select></label>
-            <label>Guests (including you)<select name="guests" required><option>1</option><option>2</option><option>3</option><option>4</option></select></label>
+            <label>Guests (including you)<select name="guests" required><option>1</option><option>2</option></select></label>
           </div>
+          <label id="additionalGuestField" hidden>Additional guest’s full name<input name="additionalGuestName" maxlength="100" placeholder="Your guest’s full name" autocomplete="off" disabled></label>
           <label>Message (optional)<textarea name="message" maxlength="1000" placeholder="Leave us a note..."></textarea></label>
           <div class="honeypot" aria-hidden="true"><label>Leave this field empty<input name="website" tabindex="-1" autocomplete="off"></label></div>
           <button class="cta" type="submit">Send RSVP &nbsp;→</button>
@@ -127,7 +128,7 @@
 
       <article class="card" id="support" tabindex="-1">
         <h2>Gift & Support</h2>
-        <p class="support-copy">Your love and presence mean the world to us. If you’d like to contribute to our next chapter, you can do so below.</p>
+        <p class="support-copy">Your presence mean the world to us. If you’d like to gift us, you can do so below.</p>
         <details class="support-item bank-account">
           <summary>Brisibe Joseph<span class="account-currency">NGN</span></summary>
           <div class="bank-account-details">
@@ -174,8 +175,8 @@
           </div>
         </details>
         <p class="transfer-narration">Narration: Wedding gift for Peace &amp; Joseph</p>
-        <div class="support-item"><span class="coin" style="color:var(--sage)">₮</span><div><strong>USDT · TRC20</strong><small id="walletValue">Details coming soon</small></div><button class="copy" disabled title="Wallet details coming soon" aria-label="Copy wallet address">⧉</button></div>
-        <p class="note">Every gesture helps us build our tomorrow. Thank you.</p>
+        <div class="support-item"><span class="coin" style="color:var(--sage)">₮</span><div><strong>USDT · TRON</strong><small id="walletValue">TKHvM8fRb4fRHkYSFxtdav9x9xyGXijnLz</small></div><button type="button" class="copy" data-copy-target="walletValue" title="Copy USDT wallet address" aria-label="Copy USDT wallet address">⧉</button></div>
+        <p class="note">Cannot wait to see you and have you share in our joy!</p>
       </article>
     </section>
 

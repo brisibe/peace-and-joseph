@@ -54,15 +54,52 @@ Use Supabase's Table Editor to review/manage reservations and export responses p
 
 ### Data and API contract
 
-The form requires a name (1–100 characters), email (maximum 254 characters), attendance response, and party size. Phone (maximum 32 characters) and message (maximum 1000 characters) are optional. Phone accepts 7–15 digits, an optional leading `+`, spaces, parentheses, and hyphens. Guests means total party size including the responding person: 1–4 for `yes`, zero for `no`. Browser and receiver validate contacts; the receiver validates all fields, rejects a filled `website` honeypot, and limits request bodies to 12,000 UTF-8 bytes.
+The form requires a name (1–100 characters), email (maximum 254 characters), attendance response, and party size. Phone (maximum 32 characters) and message (maximum 1000 characters) are optional. Phone accepts 7–15 digits, an optional leading `+`, spaces, parentheses, and hyphens. Guests means total party size including the responding person: 1–2 for `yes`, zero for `no`. Browser and receiver validate contacts; the receiver validates all fields, rejects a filled `website` honeypot, and limits request bodies to 12,000 UTF-8 bytes.
 
-POST JSON fields are `submissionId` (UUID v4), `name`, `email`, `phone`, `attending`, `guests` (a string, matching the form), `message`, and `website`. Optional text fields default to empty strings. The honeypot is never stored. The table contains `submission_id`, server-generated `received_at`, `name`, `email`, `phone`, `attending`, `guests` (integer), and `message`. Contacts and guest text are stored literally, preserving phone prefixes and leading zeros. Spreadsheet formula escaping is unnecessary for database storage; apply appropriate escaping if preparing exports for spreadsheet use.
+POST JSON fields are `submissionId` (UUID v4), `name`, `email`, `phone`, `attending`, `guests` (a string, matching the form), `additionalGuestName`, `message`, and `website`. Optional text fields default to empty strings. The honeypot is never stored. The table contains `submission_id`, server-generated `received_at`, `name`, `email`, `phone`, `attending`, `guests` (integer), `additional_guest_name` (nullable text), and `message`. Contacts and guest text are stored literally, preserving phone prefixes and leading zeros. Spreadsheet formula escaping is unnecessary for database storage; apply appropriate escaping if preparing exports for spreadsheet use.
 
 A successful response is HTTP 200 with `{ "ok": true, "submissionId": "..." }`. Failures return `{ "ok": false, "code": "..." }`: 400/403/405/413/415 for `INVALID_REQUEST`, 422 for `INVALID_RESERVATION`, 503 for `CONFIG_MISSING`, `SERVICE_BUSY`, or `SERVICE_UNAVAILABLE`, and 500 for `SAVE_FAILED`. CORS preflight uses OPTIONS and returns 204. Allowed origins receive CORS headers on both success and error responses.
 
-The function writes through PostgREST using `resolution=ignore-duplicates` and the primary key on `submission_id`, equivalent to `ON CONFLICT DO NOTHING`. A duplicate confirms the ID without changing the original row, including its timestamp. It does not update an existing RSVP. An unchanged retry on the same page reuses its ID; changing fields or refreshing starts a new submission. The frontend requires a matching ID and successful HTTP/JSON response before claiming success. Network failures and the 25-second timeout retain form details for retry. No guest details are logged or stored in browser storage.
+The function writes through PostgREST using `resolution=ignore-duplicates` and the primary key on `submission_id`, equivalent to `ON CONFLICT DO NOTHING`. A duplicate confirms the ID without changing the original row, including its timestamp. It does not update an existing RSVP. The insert returns only the new row’s ID and timestamp internally; an empty result identifies a duplicate and suppresses another Telegram alert. An unchanged retry on the same page reuses its ID; changing fields or refreshing starts a new submission. The frontend requires a matching ID and successful HTTP/JSON response before claiming success. Network failures and the 25-second timeout retain form details for retry. No guest details are logged or stored in browser storage.
 
 After confirmation, the form clears and opens the optional gift invitation, including for declines. View gift options navigates to Gift & Support; Not now, close, and Escape return focus to the submit button. Failed or unconfirmed submissions never open the invitation.
+
+### Additional guest name upgrade
+
+Selecting attendance **yes** and party size **2** reveals a required additional guest full name (1–100 characters after trimming). Single attendees and declines submit no additional name, stored as `null`. Switching attendance or party size keeps the typed name available if the visitor switches back, but hidden names are not submitted. Success clears the field; failures retain it for retry. Editing the name creates a new submission ID.
+
+For an existing deployment, run `npx supabase db push` first to add the nullable `additional_guest_name` column, then `npx supabase functions deploy submit-reservation`, then rebuild/redeploy the frontend. Existing rows and historical party sizes remain unchanged; names are not backfilled. New submissions are limited to party sizes of one or two. Older open pages submitting two guests without an additional name will receive a validation error and must refresh. Verify a two-person RSVP and the stored name in the Table Editor after deployment.
+
+### Telegram admin alerts
+
+The existing RSVP function can send one Telegram alert for each newly inserted reservation, for both acceptances and declines. It includes the respondent and additional guest names, party size, email, optional phone/message, submission ID, and the saved timestamp in Lagos time. Messages are plain text with link previews disabled. The browser does not contact Telegram or receive the bot token.
+
+1. In Telegram, open the official **@BotFather** (`https://t.me/BotFather`), send `/newbot`, and follow the prompts. Save the bot token privately.
+2. For a personal admin chat, open your new bot and press **Start**, then send it a message. For several admins, add the bot to a private group and send a command addressed to it, such as `/start@YourBotUsername`; ensure it can send messages there.
+3. Obtain the destination `chat.id` from the bot's `getUpdates` response. Call `https://api.telegram.org/bot<TOKEN>/getUpdates` using a trusted local API client, keeping the token out of browser/frontend code and shared logs. Look under `result[].message.chat.id` for your personal conversation or intended group. Preserve a negative group ID, including a `-100` prefix when present. A new bot does not need a webhook or polling service just to send these alerts. If updates are empty, send a fresh command to the bot and retry. See the [Telegram Bot API](https://core.telegram.org/bots/api#getupdates).
+4. Add the settings to **`supabase/.env.local`**, alongside the existing server settings:
+
+   ```dotenv
+   TELEGRAM_BOT_TOKEN=YOUR_BOT_TOKEN
+   TELEGRAM_CHAT_ID=YOUR_CHAT_OR_GROUP_ID
+   ```
+
+5. Upload secrets, then deploy the updated receiver:
+
+   ```sh
+   npx supabase secrets set --env-file supabase/.env.local
+   npx supabase functions deploy submit-reservation
+   ```
+
+6. Submit a synthetic RSVP and check both the database row and admin message. Test a decline too, then delete synthetic rows. Existing reservations are not announced.
+
+The function uses `resolution=ignore-duplicates,return=representation` and requests only `submission_id,received_at`. Only a newly inserted row triggers an alert. An unchanged retry confirms the reservation without sending another message. No additional database migration or frontend change is needed for Telegram.
+
+Notification delivery is best effort: the function attempts it once with a three-second timeout before returning RSVP success. Missing Telegram settings, rejection, rate limiting, network failures, and malformed Telegram responses never turn a saved RSVP into an error. There is no queue or automatic retry. A crash after saving, or a timeout after Telegram accepts a message, can leave delivery uncertain; retrying the RSVP will not retry the alert. If the database confirms a write but its insert representation cannot be read or recognized, the function still confirms the RSVP and skips notification.
+
+Safe server diagnostics are `TELEGRAM_CONFIG_MISSING`, `TELEGRAM_REJECTED`, `TELEGRAM_UNCONFIRMED`, `TELEGRAM_TIMEOUT`, `TELEGRAM_REQUEST_FAILED`, and `NOTIFICATION_INSERT_UNCONFIRMED`. No tokens, token-bearing URLs, raw provider errors, or guest details are logged. Check the configured chat and bot permissions if notifications fail. Leave either Telegram setting blank to disable alerts; reservations continue working.
+
+Unit tests use mock Telegram responses, including an actual three-second abort check. Local integration checks verify concurrent inserts against the real local database with a fake Telegram transport. Leave Telegram secrets blank in the local function environment when running automated integration checks to prevent its separate HTTP-flow checks from sending real alerts.
 
 ### Local Supabase and integration checks
 

@@ -68,6 +68,8 @@ export function setupReservationForm(form, endpoint, { onSuccess, submit = submi
   const fields = form.querySelector('fieldset')
   const attending = form.elements.attending
   const guests = form.elements.guests
+  const additionalGuest = form.elements.additionalGuestName
+  const additionalGuestField = form.querySelector('#additionalGuestField')
   let pendingId
   let pendingPayload
 
@@ -80,9 +82,15 @@ export function setupReservationForm(form, endpoint, { onSuccess, submit = submi
 
   function syncGuests() {
     guests.disabled = attending.value === 'no'
+    const needsGuestName = attending.value === 'yes' && guests.value === '2'
+    additionalGuestField.hidden = !needsGuestName
+    additionalGuest.disabled = !needsGuestName
+    additionalGuest.required = needsGuestName
+    additionalGuest.setCustomValidity('')
   }
   attending.addEventListener('change', syncGuests)
-  for (const field of [form.elements.email, form.elements.phone]) {
+  guests.addEventListener('change', syncGuests)
+  for (const field of [form.elements.email, form.elements.phone, additionalGuest]) {
     field.addEventListener('input', () => field.setCustomValidity(''))
   }
   syncGuests()
@@ -93,6 +101,10 @@ export function setupReservationForm(form, endpoint, { onSuccess, submit = submi
     const errors = contactErrors(form.elements.email.value.trim(), form.elements.phone.value.trim())
     form.elements.email.setCustomValidity(errors.email)
     form.elements.phone.setCustomValidity(errors.phone)
+    const needsGuestName = attending.value === 'yes' && guests.value === '2'
+    const additionalGuestName = needsGuestName ? additionalGuest.value.trim() : ''
+    additionalGuest.setCustomValidity(needsGuestName && (!additionalGuestName || additionalGuestName.length > 100)
+      ? 'Please enter your additional guest’s full name (up to 100 characters).' : '')
     if (!form.reportValidity()) return
     const data = Object.fromEntries(new FormData(form))
     data.name = data.name.trim()
@@ -100,6 +112,7 @@ export function setupReservationForm(form, endpoint, { onSuccess, submit = submi
     data.email = data.email.trim()
     data.phone = data.phone.trim()
     data.guests = attending.value === 'no' ? '0' : data.guests
+    data.additionalGuestName = additionalGuestName
     if (!data.name) {
       status.textContent = 'Please enter your full name.'
       form.elements.name.focus()

@@ -689,3 +689,5 @@ button:disabled {
   font-size: 28px;
   cursor: pointer;
 }
+
+#additionalGuestField[hidden] { display: none; }

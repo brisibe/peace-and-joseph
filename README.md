@@ -1,5 +1,3 @@
-# Zara & Elijah wedding website
-
 A static Vite site based on `template.html`. The original template is retained as a reference; **edit `index.html` for the live page**. No UI framework or runtime packages are needed.
 
 ## Run locally
